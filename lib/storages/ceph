@@ -225,7 +225,7 @@ EOF
         iniset $NOVA_CONF libvirt images_type rbd
         iniset $NOVA_CONF libvirt images_rbd_pool ${NOVA_CEPH_POOL}
         iniset $NOVA_CONF libvirt images_rbd_ceph_conf ${CEPH_CONF_FILE}
-        iniset $NOVA_CONF libvirt images_rbd_secret_uuid ${CINDER_CEPH_UUID}
+        iniset $NOVA_CONF libvirt rbd_secret_uuid ${CINDER_CEPH_UUID}
     fi
 }
 
