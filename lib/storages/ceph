@@ -127,14 +127,14 @@ function configure_storage_ceph {
 fsid = ${CEPH_FSID}
 mon_initial_members = $(hostname)
 mon_host = ${SERVICE_HOST}
-auth_cluster_required = cephx
-auth_service_required = cephx
-auth_client_required = cephx
+auth_cluster_required = none
+auth_service_required = none
+auth_client_required = none
 filestore_xattr_use_omap = true
 osd crush chooseleaf type = 0
 osd journal size = 100
 EOF
-    sudo ceph-mon --mkfs -i $(hostname) --keyring /var/lib/ceph/tmp/keyring.mon.$(hostname)
+    sudo ceph-mon --mkfs -i $(hostname) #--keyring /var/lib/ceph/tmp/keyring.mon.$(hostname)
     if is_ubuntu; then
     sudo touch /var/lib/ceph/mon/ceph-$(hostname)/upstart
         sudo initctl emit ceph-mon id=$(hostname)
@@ -143,9 +143,9 @@ EOF
         sudo service ceph start mon.$(hostname)
     fi
 
-    while [ ! -f ${CEPH_CONF_DIR}/ceph.client.admin.keyring ] ; do
-        sleep 1
-    done
+#    while [ ! -f ${CEPH_CONF_DIR}/ceph.client.admin.keyring ] ; do
+#        sleep 1
+#    done
 
     # change pool replica size according to the CEPH_REPLICAS set by the user
     sudo ceph osd pool set data size ${CEPH_REPLICAS}
